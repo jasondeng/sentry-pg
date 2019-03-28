@@ -1,25 +1,29 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import * as Sentry from '@sentry/browser';
 import './App.css';
 
 class App extends Component {
+  state = {text: ''};
+  handleClick = () => {
+    this.setState({text: 'Hello World'});
+    try {
+      throw new Error('caught');
+    } catch (err) {
+      if (process.env.NODE_ENV !== 'production') {
+        return;
+      }
+      Sentry.captureException(err);
+    }
+  };
+  handleErrorClick = () => {
+    throw new Error('Uncaught');
+  };
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div>
+        <button onClick={this.handleClick}>Hello</button>
+        <button onClick={this.handleErrorClick}>Error</button>
+        <div>{this.state.text}</div>
       </div>
     );
   }

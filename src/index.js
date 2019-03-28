@@ -1,12 +1,18 @@
+import * as Sentry from '@sentry/browser';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const RELEASE = '0.1.0';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+if (process.env.NODE_ENV === 'production') {
+  Sentry.init({
+    dsn: 'https://d22bbb2572c94103882a1a8388aec9b2@sentry.io/1425553',
+    release: RELEASE
+  });
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
 serviceWorker.unregister();
