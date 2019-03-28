@@ -1,5 +1,6 @@
 {
   "name": "react-sentry-pg",
+  "homepage": "https://jasondeng.io/sentry-pg/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
